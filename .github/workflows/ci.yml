@@ -1,0 +1,39 @@
+name: CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+
+jobs:
+    qa:
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:17-alpine
+                env:
+                    POSTGRES_DB: linklens_test
+                    POSTGRES_USER: app
+                    POSTGRES_PASSWORD: app
+                ports: ['5432:5432']
+                options: >-
+                    --health-cmd "pg_isready -U app"
+                    --health-interval 5s --health-timeout 5s --health-retries 10
+        env:
+            APP_ENV: test
+            APP_SECRET: ci-not-a-secret
+            DATABASE_URL: postgresql://app:app@127.0.0.1:5432/linklens?serverVersion=17&charset=utf8
+        steps:
+            - uses: actions/checkout@v5
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.5'
+                  extensions: intl, pdo_pgsql, zip, sodium
+                  coverage: none
+            - run: composer validate --strict
+            - run: composer install --no-interaction --prefer-dist --no-progress
+            - run: php bin/console lint:yaml config --parse-tags
+            - run: php bin/console lint:container
+            - name: PHPUnit
+              if: hashFiles('tests/**/*Test.php') != ''
+              run: vendor/bin/phpunit

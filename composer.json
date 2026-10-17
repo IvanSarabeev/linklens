@@ -81,6 +81,20 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "up": ["docker compose up -d", "symfony server:status", "symfony server:start -d"],
+        "down": ["symfony server:status", "symfony server:stop", "docker compose down"],
+        "cs": "php-cs-fixer fix --dry-run --diff",
+        "stan": "phpstan analyse",
+        "test": "phpunit",
+        "qa": ["symfony console messenger:stats"],
+        "logs": [
+            "Composer\\Config::disableProcessTimeout",
+            "powershell -Command \"Get-Content var/log/errors.json.log -Wait\""
+        ],
+        "chaos": [
+            "Composer\\Config::disableProcessTimeout",
+            "docker compose logs -f chaos"
         ]
     },
     "conflict": {
