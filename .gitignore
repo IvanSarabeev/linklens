@@ -11,6 +11,7 @@
 
 ### ide configuration ###
 # User-specific stuff
+/.idea
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
@@ -95,3 +96,10 @@ http-client.private.env.json
 # Github Copilot persisted session migrations, see: https://github.com/microsoft/copilot-intellij-feedback/issues/712#issuecomment-3322062215
 .idea/**/copilot.data.migration.*.xml
 ### ide configuration ###
+
+### environment secrets ###
+/.env
+/.env.dev
+/.env.prod
+/.env.dist
+### environment secrets ###
