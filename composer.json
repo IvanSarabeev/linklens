@@ -89,7 +89,7 @@
         "cs": "php-cs-fixer fix --dry-run --diff",
         "stan": "phpstan analyse",
         "test": "phpunit",
-        "qa": ["symfony console messenger:stats"],
+        "qa": ["symfony console messenger:stats", "@arch"],
         "logs": [
             "Composer\\Config::disableProcessTimeout",
             "powershell -Command \"Get-Content var/log/errors.json.log -Wait\""
@@ -97,7 +97,8 @@
         "chaos": [
             "Composer\\Config::disableProcessTimeout",
             "docker compose logs -f chaos"
-        ]
+        ],
+        "arch": "deptrac analyse"
     },
     "conflict": {
         "symfony/symfony": "*"
@@ -110,6 +111,7 @@
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^8.7",
+        "deptrac/deptrac": "^4.7",
         "friendsofphp/php-cs-fixer": "^3.95",
         "league/flysystem-memory": "^3.31",
         "phpstan/phpstan": "^2.3",
