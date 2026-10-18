@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistance\Doctrine;
 
+use App\Domain\User\Exception\UserAlreadyExists;
 use App\Domain\User\Model\User;
 use App\Domain\User\UserRepository;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -19,7 +21,12 @@ final readonly class DoctrineUserRepository implements UserRepository
     public function save(User $user): void
     {
         $this->entityManager->persist($user);
-        $this->entityManager->flush();
+
+        try {
+            $this->entityManager->flush();
+        } catch (UniqueConstraintViolationException $exception) {
+            throw new UserAlreadyExists('A user with already exists', previous: $exception);
+        }
     }
 
     /**
@@ -33,6 +40,11 @@ final readonly class DoctrineUserRepository implements UserRepository
     public function findByUuid(Uuid $uuid): ?User
     {
         return $this->entityManager->find(User::class, $uuid);
+    }
+
+    public function findByEmail(string $email): ?User
+    {
+        return $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
     }
 
     public function findByApiTokenHash(string $hash): ?User

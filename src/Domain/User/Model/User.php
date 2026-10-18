@@ -10,16 +10,12 @@ use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity]
-#[ORM\Table(name: 'user')]
+#[ORM\Table(name: 'app_user')]
 class User
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
-    private Uuid $id {
-        get {
-            return $this->id;
-        }
-    }
+    private Uuid $id;
 
     public function __construct(
         #[ORM\Column(length: 180, unique: true)]
@@ -33,6 +29,11 @@ class User
     )
     {
         $this->id = Uuid::v7();
+    }
+
+    public function getUuid(): Uuid
+    {
+        return $this->id;
     }
 
     public function getEmail(): string
