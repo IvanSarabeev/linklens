@@ -1,5 +1,7 @@
 {
     "type": "project",
+    "name": "ivansarabeev/linklens",
+    "description": "Bulk URL import, shortening and link enrichment with Symfony 8 async jobs",
     "license": "MIT",
     "minimum-stability": "stable",
     "prefer-stable": true,
