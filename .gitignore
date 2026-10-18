@@ -98,7 +98,6 @@ http-client.private.env.json
 ### ide configuration ###
 
 ### environment secrets ###
-/.env
 /.env.dev
 /.env.prod
 /.env.dist
