@@ -18,4 +18,19 @@ services:
         resource: '../src/'
         exclude:
             - '../src/Domain/*/Model/'
+            - '../src/Domain/*/Exception/'
             - '../src/Kernel.php'
+
+    OpenTelemetry\SDK\Trace\SpanExporterInterface:
+        factory: [ '@App\Infrastructure\Observability\TelemetryFactory', 'spanExporter' ]
+    OpenTelemetry\SDK\Logs\LogRecordExporterInterface:
+        factory: [ '@App\Infrastructure\Observability\TelemetryFactory', 'logExporter' ]
+    OpenTelemetry\SDK\Trace\TracerProviderInterface:
+        factory: [ '@App\Infrastructure\Observability\TelemetryFactory', 'tracerProvider' ]
+    OpenTelemetry\SDK\Logs\LoggerProviderInterface:
+        factory: [ '@App\Infrastructure\Observability\TelemetryFactory', 'loggerProvider' ]
+    OpenTelemetry\API\Trace\TracerInterface:
+        factory: [ '@OpenTelemetry\SDK\Trace\TracerProviderInterface', 'getTracer' ]
+        arguments: [ 'linklens' ]
+    OpenTelemetry\Contrib\Logs\Monolog\Handler:
+        arguments: [ '@OpenTelemetry\SDK\Logs\LoggerProviderInterface', 'info' ]

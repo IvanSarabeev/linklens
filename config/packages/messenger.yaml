@@ -4,7 +4,7 @@ framework:
         buses:
             messenger.bus.default:
                 middleware:
-                    # P0.8: CorrelationIdMiddleware and TracingMiddleware go here
+                    - App\Infrastructure\Observability\TracingMiddleware
                     - doctrine_ping_connection
                     - doctrine_close_connection
         transports:
