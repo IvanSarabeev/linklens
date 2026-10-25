@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Storage;
 
-use App\Application\Storage\Port\FileStorageInterface;
+use App\Application\Storage\Port\UploadStreamInterface;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
-final readonly class FlySystemFileStorage implements FileStorageInterface
+final readonly class FlySystemUploadStream implements UploadStreamInterface
 {
     public function __construct(
         #[Autowire(service: 'imports.storage')]
@@ -37,6 +37,4 @@ final readonly class FlySystemFileStorage implements FileStorageInterface
     {
         return $this->filesystemOperator->readStream($key);
     }
-
-
 }

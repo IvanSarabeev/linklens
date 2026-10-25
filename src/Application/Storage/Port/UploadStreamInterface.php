@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Storage\Port;
 
-interface FileStorageInterface
+interface UploadStreamInterface
 {
     /**
      * @param string $key
